@@ -1,16 +1,17 @@
 import React from "react";
-import { useParams } from "react-router-dom";
 import Loader from "../components/Loader";
+//hooks
+import { useParams } from "react-router-dom";
+
 import { useAuthContext } from "../hooks/useAuthContext";
 import useFetchAll from "../hooks/useFetchAll";
 
 export default function SingleBlog() {
   const { state: st } = useAuthContext();
   const userName = st.user.email.split("@")[0];
-  const par = useParams();
-  const { error, loading, state } = useFetchAll(`/api/blogs/${par.id}`);
+  const { id } = useParams();
+  const { error, loading, state } = useFetchAll(`/api/blogs/${id}`);
 
-  console.log(state.blogs);
   return (
     <div>
       <div className="blog-details">

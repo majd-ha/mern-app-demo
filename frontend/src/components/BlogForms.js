@@ -10,8 +10,8 @@ export default function BlogForms() {
   const [snippet, setSnippet] = useState("");
   const [error, setErorr] = useState(null);
   const titlRef = useRef();
-  const repsRef = useRef();
-  const loadRef = useRef();
+  const bodyRef = useRef();
+  const sinpRef = useRef();
 
   useEffect(() => {
     if (title !== "" && body !== "" && snippet !== "") {
@@ -35,16 +35,16 @@ export default function BlogForms() {
             setErorr(null);
 
             titlRef.current.value = "";
-            loadRef.current.value = "";
-            repsRef.current.value = "";
-            console.log("new  blog added", data);
+            sinpRef.current.value = "";
+            bodyRef.current.value = "";
+
             dispatch({ type: "CREATE_BLOG", payload: data });
           }
         });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, snippet, body, title]);
-  console.log("render");
+
   const handelSubmit = async (e) => {
     e.preventDefault();
     if (!state.user) {
@@ -53,12 +53,12 @@ export default function BlogForms() {
     }
     if (
       titlRef.current.value !== "" &&
-      repsRef.current.value !== "" &&
-      loadRef.current.value !== ""
+      bodyRef.current.value !== "" &&
+      sinpRef.current.value !== ""
     ) {
       setTitle(titlRef.current.value);
-      setBody(repsRef.current.value);
-      setSnippet(loadRef.current.value);
+      setBody(bodyRef.current.value);
+      setSnippet(sinpRef.current.value);
     } else {
       setErorr("all fields are required");
     }
@@ -70,10 +70,10 @@ export default function BlogForms() {
       <input type={"text"} defaultValue={title} ref={titlRef} />
 
       <label> snippet : </label>
-      <input type={"text"} defaultValue={snippet} ref={loadRef} />
+      <input type={"text"} defaultValue={snippet} ref={sinpRef} />
 
       <label>body : </label>
-      <textarea defaultValue={body} ref={repsRef} rows="4" cols="50"></textarea>
+      <textarea defaultValue={body} ref={bodyRef} rows="4" cols="50"></textarea>
 
       <button>Add Blog</button>
       {error && (

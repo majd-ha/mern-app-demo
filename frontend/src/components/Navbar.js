@@ -7,8 +7,6 @@ export default function Navbar() {
 
   const { logout } = useLogout();
 
-  // console.log(state);
-
   return (
     <header>
       <div className="container">
