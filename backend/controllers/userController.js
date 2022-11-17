@@ -24,10 +24,10 @@ module.exports = {
   },
   // sign up a user
   signupUser: async (req, res) => {
-    const { email, password } = req.body;
+    const { email, password, phone, user_name } = req.body;
 
     try {
-      if (!email || !password) {
+      if (!email || !password || !phone || !user_name) {
         throw Error("all feilds must be filled");
       }
       if (!validator.isEmail(email)) {
@@ -35,9 +35,16 @@ module.exports = {
       }
       const salt = await bcrypt.genSalt(10);
       const hash = await bcrypt.hash(password, salt);
-      const user = await User.create({ email, password: hash });
+      const user = await User.create({
+        email,
+        password: hash,
+        phone,
+        user_name,
+      });
       const token = createToken(user._id);
-      res.status(201).json({ email: user.email, token: token });
+      res
+        .status(201)
+        .json({ user_name: user.user_name, email: user.email, token: token });
     } catch (error) {
       if (error.code === 11000) {
         return res.status(400).json({ error: "email already exist" });
@@ -52,5 +59,5 @@ module.exports = {
         res.status(400).json({ error: error.message });
       }
     }
-  }
+  },
 };

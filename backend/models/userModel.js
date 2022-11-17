@@ -11,11 +11,16 @@ const userschema = mongoose.Schema({
     type: String,
     required: true,
   },
-  avatar:
-    {
-        data: Buffer,
-        contentType: String
-    }
+  phone: {
+    type: Number,
+    required: true,
+    unique: true,
+  },
+  user_name: {
+    type: String,
+    required: true,
+    unique: true,
+  },
 });
 userschema.statics.login = async function (email, password) {
   if (!email || !password) {

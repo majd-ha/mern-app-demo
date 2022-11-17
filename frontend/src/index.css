@@ -243,7 +243,7 @@ form.login {
 
 /* landing page */
 .landing {
-  width: 800px;
+  width: 80%;
   margin: 10px auto;
 }
 
@@ -365,7 +365,46 @@ form.login {
 
 }
 
+/* .full-name{
+  display: flex;
 
+} */
+
+input{
+  border: 1px solid grey;
+  outline: none;
+}
+
+.invalid{
+  border: 1px solid red;
+}
+.valid {
+  border: 1px solid green;
+}
+.show-instuctions{
+  min-height: 50px;
+ 
+  color: red;
+  padding: 10px;
+ 
+  border-radius: 20px;
+  border: 1px solid red;
+}
+.hide-instuctions{
+  display: none;
+}
+.pass-cont{
+  position: relative;
+}
+#show-hide-pass{
+  position: absolute;
+  cursor: pointer;
+    top: 58%;
+    right: 2%;
+}
+#hide-element{
+  display: none;
+}
 /* loader */
 .loader {
   width: 100px;
@@ -409,5 +448,42 @@ form.login {
 
   to {
       transform: rotate(360deg);
+  }
+}
+
+
+/* responseve for mobile  */
+
+@media  (max-width : 600px) {
+  .blog-details{
+    width: 90%;
+  }
+  .home-page{
+    width: 100%;
+  }
+  header .container {
+    width: 100%;
+    padding: -11px 20px;
+  }
+  .container .myblogs  {
+  flex-direction: column-reverse;
+  }
+  .container .myblogs button {
+    font-size: small;
+  }
+
+  .home{
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+  }
+  .create {
+    width: 90%;
+  }
+  .pages {
+    width: 100%;
+  }
+  .first-parent{
+    width: 100%;
   }
 }
