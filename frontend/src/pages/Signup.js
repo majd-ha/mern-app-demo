@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import Loader from "../components/Loader";
 import { useSignup } from "../hooks/useSignnup";
 const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
@@ -25,12 +26,14 @@ const Signup = () => {
   const [confpwd, setConfPwd] = useState("");
   const [isconfirmed, setIsconfirmed] = useState(false);
   const [showPass, setShowPass] = useState(false);
+  const [erroMsg, setErrorMsg] = useState("");
 
   const { signup, isLoading, error } = useSignup();
   //check if all fields is valid
   useEffect(() => {
     if (validName && validEmail && validPhone && validPwd && isconfirmed) {
       setSuccess(true);
+      setErrorMsg("");
     } else {
       setSuccess(false);
     }
@@ -60,12 +63,20 @@ const Signup = () => {
 
     setValidEmail(isValidEmail);
   }, [email]);
-
+  const checkForm = () => {
+    fullnameRef.current.className = validName ? "valid" : "invalid";
+    phoneRef.current.className = validPhone ? "valid" : "invalid";
+    emailRef.current.className = validEmail ? "valid" : "invalid";
+    pwdRef.current.className = validPwd ? "valid" : "invalid";
+  };
   //function to submit the form
   const handelSubmit = async (e) => {
     e.preventDefault();
+    checkForm();
     if (success) {
       await signup(email, password, phone, fullname);
+    } else {
+      setErrorMsg("form not valid all fields required");
     }
   };
   //toggle password show/hide
@@ -76,141 +87,136 @@ const Signup = () => {
       setShowPass(true);
     }
   };
-  return (
-    <form className="signup" onSubmit={handelSubmit}>
-      <h3>Sign up</h3>
+  return isLoading ? (
+    <Loader />
+  ) : (
+    <>
+      <form
+        className="signup"
+        onSubmit={handelSubmit}
+        id={erroMsg.length > 0 ? "err-form" : ""}
+      >
+        {erroMsg.length > 0 ? <h2>{erroMsg}</h2> : <></>}
+        <h3>Sign up</h3>
 
-      <label>User name</label>
-      <input
-        type={"text"}
-        id="fullname"
-        ref={fullnameRef}
-        autoComplete="on"
-        onBlur={() =>
-          (fullnameRef.current.className =
-            fullname && validName ? "valid" : "invalid")
-        }
-        className={fullname && !validName ? "invalid" : ""}
-        onChange={(e) => {
-          setFullname(e.target.value);
-        }}
-      />
-      <p
-        className={
-          fullname && !validName ? "show-instuctions" : "hide-instuctions"
-        }
-      >
-        at least 4 charecters not allowed to use spaces and !, @ ,# , ; , : you
-        can use charecters and dash and under score
-      </p>
-      <label>Phone Number</label>
-      <input
-        type={"text"}
-        id="phone"
-        ref={phoneRef}
-        autoComplete="on"
-        onBlur={() =>
-          (phoneRef.current.className =
-            phone && validPhone ? "valid" : "invalid")
-        }
-        className={phone && !validPhone ? "invalid" : ""}
-        onChange={(e) => {
-          setPhone(e.target.value);
-        }}
-      />
-      <p
-        className={
-          phone && !validPhone ? "show-instuctions" : "hide-instuctions"
-        }
-      >
-        enter a valid phone number
-      </p>
-      <label>Email : </label>
-      <input
-        type={"email"}
-        onChange={(e) => {
-          setEmail(e.target.value);
-        }}
-        autoComplete="on"
-        onBlur={() =>
-          (emailRef.current.className =
-            email && validEmail ? "valid" : "invalid")
-        }
-        className={email && !validEmail ? "invalid" : ""}
-        ref={emailRef}
-        value={email}
-      />
-      <p
-        className={
-          email && !validEmail ? "show-instuctions" : "hide-instuctions"
-        }
-      >
-        enter a valid email
-      </p>
-      <div className="pass-cont">
-        <label>password : </label>
+        <label>User name</label>
         <input
-          type={showPass ? "text" : "password"}
+          type={"text"}
+          id="fullname"
+          ref={fullnameRef}
+          autoComplete="on"
+          className={fullname && !validName ? "invalid" : ""}
           onChange={(e) => {
-            setPassword(e.target.value);
+            setFullname(e.target.value);
           }}
-          value={password}
-          onBlur={() =>
-            (pwdRef.current.className =
-              password && validPwd ? "valid" : "invalid")
-          }
-          className={password && !validPwd ? "invalid" : ""}
-          ref={pwdRef}
         />
-        <span
-          id={password ? "show-hide-pass" : "hide-element"}
-          onClick={ShowPassword}
-          className="material-symbols-outlined"
+        <p
+          className={
+            fullname && !validName ? "show-instuctions" : "hide-instuctions"
+          }
         >
-          {showPass ? <>visibility</> : <>visibility_off</>}
-        </span>
-      </div>
-
-      <p
-        className={
-          password && !validPwd ? "show-instuctions" : "hide-instuctions"
-        }
-      >
-        enter a valid password that contains at least 8 charecters and less than
-        23 charecters and capital letters and @,#,$... and numbers
-      </p>
-      {password && (
-        <>
-          <label>confirm password : </label>
+          at least 4 charecters not allowed to use spaces and !, @ ,# , ; , :
+          you can use charecters and dash and under score
+        </p>
+        <label>Phone Number</label>
+        <input
+          type={"text"}
+          id="phone"
+          ref={phoneRef}
+          autoComplete="on"
+          className={phone && !validPhone ? "invalid" : ""}
+          onChange={(e) => {
+            setPhone(e.target.value);
+          }}
+        />
+        <p
+          className={
+            phone && !validPhone ? "show-instuctions" : "hide-instuctions"
+          }
+        >
+          enter a valid phone number
+        </p>
+        <label>Email : </label>
+        <input
+          type={"email"}
+          onChange={(e) => {
+            setEmail(e.target.value);
+          }}
+          autoComplete="on"
+          className={email && !validEmail ? "invalid" : ""}
+          ref={emailRef}
+          value={email}
+        />
+        <p
+          className={
+            email && !validEmail ? "show-instuctions" : "hide-instuctions"
+          }
+        >
+          enter a valid email
+        </p>
+        <div className="pass-cont">
+          <label>password : </label>
           <input
-            type={"password"}
+            type={showPass ? "text" : "password"}
             onChange={(e) => {
-              setConfPwd(e.target.value);
+              setPassword(e.target.value);
             }}
-            className={
-              password && validPwd && isconfirmed
-                ? "valid"
-                : password && validPwd && !isconfirmed
-                ? "invalid"
-                : ""
-            }
-            value={confpwd}
-            ref={confirmPwdRef}
+            value={password}
+            className={password && !validPwd ? "invalid" : ""}
+            ref={pwdRef}
           />
-          <p
-            className={
-              password && validPwd && !isconfirmed
-                ? "show-instuctions"
-                : "hide-instuctions"
-            }
+          <span
+            id={password ? "show-hide-pass" : "hide-element"}
+            onClick={ShowPassword}
+            className="material-symbols-outlined"
           >
-            you must enter a identical passowrd
-          </p>
-        </>
-      )}
-      <button disabled={isLoading}>Sign up</button>
-      {error && <div className="error">{error}</div>}
-    </form>
+            {showPass ? <>visibility</> : <>visibility_off</>}
+          </span>
+        </div>
+
+        <p
+          className={
+            password && !validPwd ? "show-instuctions" : "hide-instuctions"
+          }
+        >
+          enter a valid password that contains at least 8 charecters and less
+          than 23 charecters and capital letters and @,#,$... and numbers
+        </p>
+        {password && (
+          <>
+            <label>confirm password : </label>
+            <input
+              type={"password"}
+              onChange={(e) => {
+                setConfPwd(e.target.value);
+              }}
+              className={
+                password && validPwd && isconfirmed
+                  ? "valid"
+                  : password && validPwd && !isconfirmed
+                  ? "invalid"
+                  : ""
+              }
+              value={confpwd}
+              ref={confirmPwdRef}
+            />
+            <p
+              className={
+                password && validPwd && !isconfirmed
+                  ? "show-instuctions"
+                  : "hide-instuctions"
+              }
+            >
+              you must enter an identical passowrds
+            </p>
+          </>
+        )}
+
+        {/*  */}
+        <button disabled={isLoading}>Sign up</button>
+        {error && <div className="error">{error}</div>}
+      </form>
+    </>
   );
 };
 

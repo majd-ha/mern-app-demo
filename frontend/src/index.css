@@ -405,6 +405,10 @@ input{
 #hide-element{
   display: none;
 }
+#err-form{
+  border: 1px solid red;
+  
+}
 /* loader */
 .loader {
   width: 100px;
