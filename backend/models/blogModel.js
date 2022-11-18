@@ -17,13 +17,12 @@ const BlogSchema = mongoose.Schema(
       type: String,
       required: true,
     },
-    user_name: {
+    owner: {
       type: String,
       required: true,
     },
     likes: {
       type: Array,
-      unique: true,
     },
   },
   { timestamps: true }

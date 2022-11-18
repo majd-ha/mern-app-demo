@@ -7,7 +7,8 @@ import { useBlogContext } from "../hooks/useBlogContext";
 
 export default function BlogDetails({ blog, show }) {
   const { state } = useAuthContext();
-  const userName = state.user.email.split("@")[0];
+  const [isLoading, setIsLoading] = useState(false);
+  const userName = state.user.user_name;
   const wholikeRef = useRef();
   const [shown, setShown] = useState(true);
 
@@ -21,29 +22,31 @@ export default function BlogDetails({ blog, show }) {
     }
   };
   const likBlog = async () => {
+    setIsLoading(true);
     const response = await fetch(`/api/blogs/addlike/${blog._id}`, {
       method: "PATCH",
-      body: JSON.stringify({ email: state.user.email }),
+      body: JSON.stringify({ email: state.user.user_name }),
       headers: {
         Authorization: `Bearer ${state.user.token}`,
         "Content-Type": "application/json",
       },
     });
     if (response.ok) {
-      const response = await fetch(`/api/blogs/${blog._id}/`, {
+      const responseBlog = await fetch(`/api/blogs/${blog._id}/`, {
         headers: {
           Authorization: `Bearer ${state.user.token}`,
         },
       });
-      const data = await response.json();
-      if (response.ok) {
+      const data = await responseBlog.json();
+      if (responseBlog.ok) {
         dispatch({ type: "UPDATE_BLOG", payload: data });
+        setIsLoading(false);
       }
     }
   };
   const { dispatch } = useBlogContext();
   const handleClick = async () => {
-    if (!state.user || userName !== blog.user_name) {
+    if (!state.user || userName !== blog.owner) {
       return;
     }
     const response = await fetch(`/api/blogs/${blog._id}`, {
@@ -62,7 +65,7 @@ export default function BlogDetails({ blog, show }) {
     <div className="blog-details">
       <div className="blog-title">
         <span className="material-symbols-outlined">account_circle</span>
-        <Link to={`/users/${blog.user_id}`}> {blog.user_name}</Link>{" "}
+        <Link to={`/users/${blog.user_id}`}> {blog.owner}</Link>{" "}
       </div>
       {!show && (
         <Link to={`/blogs/${blog._id}`}>
@@ -99,9 +102,10 @@ export default function BlogDetails({ blog, show }) {
       <div className="footer-blog-container">
         <div className="footer-blog">
           <button
+            disabled={isLoading}
             onClick={likBlog}
             style={
-              blog.likes.includes(state.user.email)
+              blog.likes.includes(state.user.user_name)
                 ? { color: "blue" }
                 : { color: "grey" }
             }
@@ -119,7 +123,7 @@ export default function BlogDetails({ blog, show }) {
       </div>
       <div className="who-like" ref={wholikeRef}>
         {blog.likes.map((el) => {
-          if (el === state.user.email) {
+          if (el === state.user.user_name) {
             return (
               <p
                 key={el}
@@ -131,7 +135,7 @@ export default function BlogDetails({ blog, show }) {
               </p>
             );
           } else {
-            return <p key={el}>{el.split("@")[0]}</p>;
+            return <p key={el}>{el}</p>;
           }
         })}
       </div>

@@ -69,6 +69,21 @@ const Signup = () => {
     emailRef.current.className = validEmail ? "valid" : "invalid";
     pwdRef.current.className = validPwd ? "valid" : "invalid";
   };
+  useEffect(() => {
+    if (error) {
+      if (error.includes("name")) {
+        fullnameRef.current.className = "invalid";
+        fullnameRef.current.focus();
+      } else if (error.includes("number")) {
+        phoneRef.current.className = "invalid";
+        phoneRef.current.focus();
+      } else if (error.includes("Email")) {
+        emailRef.current.className = "invalid";
+        emailRef.current.focus();
+      }
+    }
+  }, [error]);
+
   //function to submit the form
   const handelSubmit = async (e) => {
     e.preventDefault();
@@ -88,7 +103,7 @@ const Signup = () => {
     }
   };
   return isLoading ? (
-    <Loader />
+    !error && <Loader />
   ) : (
     <>
       <form
@@ -104,6 +119,7 @@ const Signup = () => {
           type={"text"}
           id="fullname"
           ref={fullnameRef}
+          value={fullname}
           autoComplete="on"
           className={fullname && !validName ? "invalid" : ""}
           onChange={(e) => {
@@ -122,6 +138,7 @@ const Signup = () => {
         <input
           type={"text"}
           id="phone"
+          value={phone}
           ref={phoneRef}
           autoComplete="on"
           className={phone && !validPhone ? "invalid" : ""}
@@ -134,18 +151,18 @@ const Signup = () => {
             phone && !validPhone ? "show-instuctions" : "hide-instuctions"
           }
         >
-          enter a valid phone number
+          not a valid phone number
         </p>
         <label>Email : </label>
         <input
           type={"email"}
+          value={email}
           onChange={(e) => {
             setEmail(e.target.value);
           }}
           autoComplete="on"
           className={email && !validEmail ? "invalid" : ""}
           ref={emailRef}
-          value={email}
         />
         <p
           className={
@@ -158,10 +175,10 @@ const Signup = () => {
           <label>password : </label>
           <input
             type={showPass ? "text" : "password"}
+            value={password}
             onChange={(e) => {
               setPassword(e.target.value);
             }}
-            value={password}
             className={password && !validPwd ? "invalid" : ""}
             ref={pwdRef}
           />
@@ -214,6 +231,7 @@ const Signup = () => {
 
         {/*  */}
         <button disabled={isLoading}>Sign up</button>
+
         {error && <div className="error">{error}</div>}
       </form>
     </>

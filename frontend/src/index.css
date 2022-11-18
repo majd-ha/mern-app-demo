@@ -222,7 +222,7 @@ form.login {
 
 /* my blogs */
 .myblogs a {
-  width: 10%;
+
   color: #e7195a;
   margin: 1px 5px;
   display: flex;
@@ -382,13 +382,13 @@ input{
   border: 1px solid green;
 }
 .show-instuctions{
-  min-height: 50px;
+  font-size: small;
  
-  color: red;
+  color: rgb(149, 160, 0);
   padding: 10px;
  
   border-radius: 20px;
-  border: 1px solid red;
+  border: 1px solid rgb(149, 160, 0);;
 }
 .hide-instuctions{
   display: none;

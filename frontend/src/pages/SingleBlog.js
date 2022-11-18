@@ -8,7 +8,7 @@ import useFetchAll from "../hooks/useFetchAll";
 
 export default function SingleBlog() {
   const { state: st } = useAuthContext();
-  const userName = st.user.email.split("@")[0];
+  const userName = st.user.user_name;
   const { id } = useParams();
   const { error, loading, state } = useFetchAll(`/api/blogs/${id}`);
 
@@ -29,10 +29,10 @@ export default function SingleBlog() {
                   Owner :
                   <strong style={{ color: "#e7195a" }}>
                     {" "}
-                    {state.blogs?.user_name === userName ? (
+                    {state.blogs?.owner === userName ? (
                       <>you</>
                     ) : (
-                      state.blogs?.user_name
+                      state.blogs?.owner
                     )}
                   </strong>{" "}
                 </p>

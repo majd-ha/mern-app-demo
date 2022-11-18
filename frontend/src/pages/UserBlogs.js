@@ -26,7 +26,7 @@ export default function UserBlogs() {
         <>
           <h1 style={{ textAlign: "center" }}>
             {userblogs?.length !== 0 ? (
-              userblogs[0]?.user_name + `’s Blogs`
+              userblogs[0]?.owner + `’s Blogs`
             ) : (
               <p>not a valid user</p>
             )}

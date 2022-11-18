@@ -6,12 +6,12 @@ export const useSignup = () => {
 
   const [isLoading, setIsLoading] = useState(false);
   const { dispatch } = useAuthContext();
-  const signup = async (email, password) => {
+  const signup = async (email, password, phone, fullname) => {
     setIsLoading(true);
     setError(null);
     const response = await fetch("/api/user/signup", {
       method: "POST",
-      body: JSON.stringify({ email, password }),
+      body: JSON.stringify({ email, password, phone, user_name: fullname }),
       headers: {
         "Content-Type": "application/json",
       },
@@ -28,5 +28,12 @@ export const useSignup = () => {
       setIsLoading(false);
     }
   };
+  if (
+    error?.includes(
+      "Could not connect to any servers in your MongoDB Atlas cluster"
+    )
+  ) {
+    setError("there is a proplem with your connection");
+  }
   return { signup, isLoading, error };
 };

@@ -21,7 +21,7 @@ export default function Navbar() {
                   account_circle
                 </span>
                 <strong style={{ fontSize: "large", marginLeft: "5px" }}>
-                  {state.user.email.split("@")[0]}
+                  {state.user.user_name}
                 </strong>
               </Link>
               <button
