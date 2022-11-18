@@ -8,7 +8,9 @@ export default function UserBlogs() {
   const [userblogs, setUserBlogs] = useState([]);
 
   const { id } = useParams();
-  const { error, loading, state } = useFetchAll("/api/blogs/");
+  const { error, loading, state } = useFetchAll(
+    "https://blog-react-backend.onrender.com/api/blogs/"
+  );
   useEffect(() => {
     if (state.blogs) {
       const user_blogs = state.blogs?.filter((b) => b.user_id === id);

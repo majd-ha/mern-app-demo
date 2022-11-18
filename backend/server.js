@@ -5,10 +5,15 @@ require("dotenv").config();
 
 const blogRouter = require("./routes/blogRoutes");
 const userRoutes = require("./routes/user");
+const cors = require("cors");
 const app = express();
 
 //middelware
-
+app.use(
+  cors({
+    origin: ["https://blog-react-new.onrender.com/", "http://localhost:3000/"],
+  })
+);
 app.use(express.json());
 
 //routes

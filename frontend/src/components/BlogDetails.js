@@ -23,20 +23,26 @@ export default function BlogDetails({ blog, show }) {
   };
   const likBlog = async () => {
     setIsLoading(true);
-    const response = await fetch(`/api/blogs/addlike/${blog._id}`, {
-      method: "PATCH",
-      body: JSON.stringify({ email: state.user.user_name }),
-      headers: {
-        Authorization: `Bearer ${state.user.token}`,
-        "Content-Type": "application/json",
-      },
-    });
-    if (response.ok) {
-      const responseBlog = await fetch(`/api/blogs/${blog._id}/`, {
+    const response = await fetch(
+      `https://blog-react-backend.onrender.com/api/blogs/addlike/${blog._id}`,
+      {
+        method: "PATCH",
+        body: JSON.stringify({ email: state.user.user_name }),
         headers: {
           Authorization: `Bearer ${state.user.token}`,
+          "Content-Type": "application/json",
         },
-      });
+      }
+    );
+    if (response.ok) {
+      const responseBlog = await fetch(
+        `https://blog-react-backend.onrender.com/api/blogs/${blog._id}/`,
+        {
+          headers: {
+            Authorization: `Bearer ${state.user.token}`,
+          },
+        }
+      );
       const data = await responseBlog.json();
       if (responseBlog.ok) {
         dispatch({ type: "UPDATE_BLOG", payload: data });
@@ -49,12 +55,15 @@ export default function BlogDetails({ blog, show }) {
     if (!state.user || userName !== blog.owner) {
       return;
     }
-    const response = await fetch(`/api/blogs/${blog._id}`, {
-      method: "DELETE",
-      headers: {
-        Authorization: `Bearer ${state.user.token}`,
-      },
-    });
+    const response = await fetch(
+      `https://blog-react-backend.onrender.com/api/blogs/${blog._id}`,
+      {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${state.user.token}`,
+        },
+      }
+    );
     const json = await response.json();
     if (json) {
       dispatch({ type: "DELETE_BLOG", payload: json });

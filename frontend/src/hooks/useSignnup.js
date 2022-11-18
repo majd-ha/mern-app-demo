@@ -9,13 +9,16 @@ export const useSignup = () => {
   const signup = async (email, password, phone, fullname) => {
     setIsLoading(true);
     setError(null);
-    const response = await fetch("/api/user/signup", {
-      method: "POST",
-      body: JSON.stringify({ email, password, phone, user_name: fullname }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const response = await fetch(
+      "https://blog-react-backend.onrender.com/api/user/signup",
+      {
+        method: "POST",
+        body: JSON.stringify({ email, password, phone, user_name: fullname }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
     const json = await response.json();
 
     if (!response.ok) {

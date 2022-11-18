@@ -8,7 +8,13 @@ import Loader from "../components/Loader";
 import useFetchAll from "../hooks/useFetchAll";
 
 export default function MyBlogs() {
-  const { loading, state: st, error } = useFetchAll("/api/blogs/userBlogs");
+  const {
+    loading,
+    state: st,
+    error,
+  } = useFetchAll(
+    "https://blog-react-backend.onrender.com/api/blogs/userBlogs"
+  );
 
   return (
     <div>

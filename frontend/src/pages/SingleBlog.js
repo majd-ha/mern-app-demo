@@ -10,7 +10,9 @@ export default function SingleBlog() {
   const { state: st } = useAuthContext();
   const userName = st.user.user_name;
   const { id } = useParams();
-  const { error, loading, state } = useFetchAll(`/api/blogs/${id}`);
+  const { error, loading, state } = useFetchAll(
+    `https://blog-react-backend.onrender.com/api/blogs/${id}`
+  );
 
   return (
     <div>

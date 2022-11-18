@@ -4,7 +4,9 @@ import Loader from "../components/Loader";
 import useFetchAll from "../hooks/useFetchAll";
 
 export default function Home() {
-  const { loading, error, state } = useFetchAll("/api/blogs/");
+  const { loading, error, state } = useFetchAll(
+    "https://blog-react-backend.onrender.com/api/blogs/"
+  );
 
   return (
     <div className="home-page">

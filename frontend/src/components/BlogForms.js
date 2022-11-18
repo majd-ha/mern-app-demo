@@ -15,7 +15,7 @@ export default function BlogForms() {
 
   useEffect(() => {
     if (title !== "" && body !== "" && snippet !== "") {
-      fetch("/api/blogs/", {
+      fetch("https://blog-react-backend.onrender.com/api/blogs/", {
         method: "POST",
         body: JSON.stringify({
           title,
