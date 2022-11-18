@@ -11,7 +11,7 @@ const app = express();
 //middelware
 app.use(
   cors({
-    origin: ["https://blog-react-new.onrender.com/", "http://localhost:3000/"],
+    origin: "https://blog-react-new.onrender.com",
   })
 );
 app.use(express.json());
