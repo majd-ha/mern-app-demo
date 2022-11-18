@@ -19,7 +19,7 @@ app.use(express.json());
 //routes
 app.use("/api/blogs/", blogRouter);
 app.use("/api/user/", userRoutes);
-//connect to db  ...process.env.DBURI
+//connect to db
 mongoose
   .connect(process.env.DBURI)
   .then(() => {
