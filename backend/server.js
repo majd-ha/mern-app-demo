@@ -16,6 +16,7 @@ app.use(
   })
 );
 app.use(express.json());
+app.use(express.static(__dirname + "/uploads"));
 // app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
