@@ -46,7 +46,9 @@ module.exports = {
       const hash = await bcrypt.hash(password, salt);
       const user = await User.create({
         email,
-        avatar: fs.readFileSync(`uploads\\a302008d965086ab4e869cde72d47721`),
+        avatar: fs.readFileSync(
+          `/opt/render/project/src/backend/uploads\\a302008d965086ab4e869cde72d47721`
+        ),
         password: hash,
         phone,
         user_name,
