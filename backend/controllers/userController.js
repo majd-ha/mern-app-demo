@@ -5,6 +5,7 @@ const fs = require("fs");
 
 const jwt = require("jsonwebtoken");
 const Blog = require("../models/blogModel");
+const path = require("path");
 
 const createToken = (_id) => {
   return jwt.sign({ _id }, process.env.SEC, { expiresIn: "3d" });
@@ -46,7 +47,12 @@ module.exports = {
       const hash = await bcrypt.hash(password, salt);
       const user = await User.create({
         email,
-        avatar: fs.readFileSync(`a302008d965086ab4e869cde72d47721`),
+        avatar: fs.readFileSync(
+          path.resolve(
+            __dirname,
+            `../uploads\\a302008d965086ab4e869cde72d47721`
+          )
+        ),
         password: hash,
         phone,
         user_name,
