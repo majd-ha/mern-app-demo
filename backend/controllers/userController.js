@@ -48,10 +48,7 @@ module.exports = {
       const user = await User.create({
         email,
         avatar: fs.readFileSync(
-          path.resolve(
-            __dirname,
-            `../uploads\\a302008d965086ab4e869cde72d47721`
-          )
+          path.resolve(__dirname, `../uploads/a302008d965086ab4e869cde72d47721`)
         ),
         password: hash,
         phone,
