@@ -95,7 +95,13 @@ module.exports = {
     const username = req.params.username;
     const result = await User.findOneAndUpdate(
       { user_name: username },
-      { $set: { avatar: fs.readFileSync(`uploads\\${avatar.filename}`) } },
+      {
+        $set: {
+          avatar: fs.readFileSync(
+            path.resolve(__dirname, `../uploads/${avatar.filename}`)
+          ),
+        },
+      },
       { new: true }
     );
 
@@ -105,7 +111,7 @@ module.exports = {
         { $set: { owner_avatar: result.avatar } }
       );
       res.status(201).json({ avatar: result.avatar, updated: updateBlogs });
-      fs.unlinkSync(`uploads\\${avatar.filename}`);
+      fs.unlinkSync(path.resolve(__dirname, `../uploads/${avatar.filename}`));
     } else {
       res.status(400).json({ error: result });
     }

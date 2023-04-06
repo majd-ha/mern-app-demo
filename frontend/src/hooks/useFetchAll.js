@@ -23,7 +23,6 @@ export default function useFetchAll(url, key) {
       // console.log(data.data);
       dispatch({ type: "SET_BLOGS", payload: data?.data });
     },
-    enabled: !!context.state.user,
   });
   // useEffect(() => {
   // const fetchBlogs = async () => {
