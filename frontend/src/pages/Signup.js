@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import Loader from "../components/Loader";
 import { useSignup } from "../hooks/useSignnup";
 const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
@@ -185,9 +186,16 @@ const Signup = () => {
           <span
             id={password ? "show-hide-pass" : "hide-element"}
             onClick={ShowPassword}
-            className="material-symbols-outlined"
           >
-            {showPass ? <>visibility</> : <>visibility_off</>}
+            {showPass ? (
+              <>
+                <AiOutlineEye />
+              </>
+            ) : (
+              <>
+                <AiOutlineEyeInvisible />
+              </>
+            )}
           </span>
         </div>
 
@@ -232,7 +240,7 @@ const Signup = () => {
         {/*  */}
         <button disabled={isLoading}>Sign up</button>
 
-        {error && <div className="error">{error}</div>}
+        {error && <div className="error break-words">{error}</div>}
       </form>
     </>
   );

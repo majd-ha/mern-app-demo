@@ -76,7 +76,7 @@ export default function BlogForms() {
       <input type={"text"} defaultValue={snippet} ref={sinpRef} />
 
       <label>body : </label>
-      <textarea defaultValue={body} ref={bodyRef} rows="4" cols="40"></textarea>
+      <textarea defaultValue={body} ref={bodyRef} rows="4" cols="30"></textarea>
 
       <button>Add Blog</button>
       {error && (
