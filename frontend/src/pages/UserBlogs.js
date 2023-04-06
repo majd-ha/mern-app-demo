@@ -9,7 +9,7 @@ export default function UserBlogs() {
   const [userblogs, setUserBlogs] = useState([]);
   const { state } = useBlogContext();
   const { id } = useParams();
-  const { error, loading } = useFetchAll("/bolgs");
+  const { error, loading } = useFetchAll("/blogs");
   useEffect(() => {
     if (state.blogs) {
       const user_blogs = state.blogs?.filter((b) => b.user_id === id);
