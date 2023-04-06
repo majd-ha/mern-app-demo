@@ -28,7 +28,7 @@ import UserBlogs from "./pages/UserBlogs";
 function App() {
   const { state } = useAuthContext();
   // const base = "https://blog-react-backend.onrender.com/api/blogs/";
-  axios.defaults.baseURL = "https://blog-react-backend.onrender.com/api/blogs/";
+  axios.defaults.baseURL = "https://blog-react-backend.onrender.com/api/";
   axios.defaults.headers = {
     Authorization: `Bearer ${state?.user?.token}`,
   };

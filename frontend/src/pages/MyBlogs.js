@@ -21,7 +21,7 @@ export default function MyBlogs() {
   const { state: st, dispatch } = useAuthContext();
   const { state } = useBlogContext();
   // const base = "https://blog-react-backend.onrender.com/api/blogs/";
-  const { loading, error } = useFetchAll(`/userBlogs`, "my");
+  const { loading, error } = useFetchAll(`/blogs/userBlogs`, "my");
 
   const changImg = (e) => {
     e.preventDefault();

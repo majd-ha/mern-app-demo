@@ -9,7 +9,7 @@ export default function Home() {
   // const onsuccess = () => {
   //   dispatch({ type: "SET_BLOGS", payload: data?.data });
   // };
-  const { loading, error } = useFetchAll("/", "all");
+  const { loading, error } = useFetchAll("/blogs", "all");
   if (loading) {
     return <Loader />;
   }
