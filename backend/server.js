@@ -6,17 +6,21 @@ require("dotenv").config();
 const blogRouter = require("./routes/blogRoutes");
 const userRoutes = require("./routes/user");
 const cors = require("cors");
+const bodyParser = require("body-parser");
 const app = express();
-
+// app.use(cookieParser());
 //middelware
 app.use(
   cors({
-    origin: "https://blog-react-new.onrender.com",
+    origin: ["https://blog-react-new.onrender.com"],
   })
 );
 app.use(express.json());
+// app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 //routes
+
 app.use("/api/blogs/", blogRouter);
 app.use("/api/user/", userRoutes);
 //connect to db

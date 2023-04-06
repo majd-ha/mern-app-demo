@@ -4,15 +4,15 @@ import Loader from "../components/Loader";
 import { useParams } from "react-router-dom";
 
 import { useAuthContext } from "../hooks/useAuthContext";
-import useFetchAll from "../hooks/useFetchAll";
+import { useSingleFetch } from "../hooks/useSingleFetch";
 
-export default function SingleBlog() {
+function SingleBlog() {
   const { state: st } = useAuthContext();
   const userName = st.user.user_name;
   const { id } = useParams();
-  const { error, loading, state } = useFetchAll(
-    `https://blog-react-backend.onrender.com/api/blogs/${id}`
-  );
+  // const { state } = useBlogContext();
+
+  const { error, loading, data } = useSingleFetch(id);
 
   return (
     <div>
@@ -31,34 +31,34 @@ export default function SingleBlog() {
                   Owner :
                   <strong style={{ color: "#e7195a" }}>
                     {" "}
-                    {state.blogs?.owner === userName ? (
+                    {data?.data?.owner === userName ? (
                       <>you</>
                     ) : (
-                      state.blogs?.owner
+                      data?.data?.owner
                     )}
                   </strong>{" "}
                 </p>
                 <h4>
                   {" "}
-                  <strong> title : </strong> {state.blogs?.title}
+                  <strong> title : </strong> {data?.data?.title}
                 </h4>
                 <p>
                   {" "}
-                  <strong> snippet : </strong> {state.blogs?.snippet}
+                  <strong> snippet : </strong> {data?.data?.snippet}
                 </p>
                 <p className="blog-body">
                   {" "}
                   <strong>Content : </strong>
-                  {state.blogs?.body}
+                  {data?.data?.body}
                 </p>{" "}
                 <p>
                   {" "}
-                  <strong> Likes : </strong> {state.blogs?.likes?.length}
+                  <strong> Likes : </strong> {data?.data?.likes?.length}
                 </p>
                 <div>
                   {" "}
                   <strong> people who likes : </strong>{" "}
-                  {state.blogs?.likes?.map((user) => (
+                  {data?.data?.likes?.map((user) => (
                     <p key={user}>{user}</p>
                   ))}
                 </div>
@@ -70,3 +70,5 @@ export default function SingleBlog() {
     </div>
   );
 }
+
+export default React.memo(SingleBlog);

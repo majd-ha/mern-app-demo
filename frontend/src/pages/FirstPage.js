@@ -12,7 +12,7 @@ export default function FirstPage() {
         </div>
         <div>
           <h3>sign now</h3>
-          <Link to={"/signup"}> sign here </Link>
+          <Link to={"/public/signup"}> sign here </Link>
         </div>
         <div>
           <h3>browse blogs</h3>

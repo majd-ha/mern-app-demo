@@ -12,10 +12,10 @@ export default function BlogForms() {
   const titlRef = useRef();
   const bodyRef = useRef();
   const sinpRef = useRef();
-
+  const base = "https://blog-react-backend.onrender.com/api/blogs/";
   useEffect(() => {
     if (title !== "" && body !== "" && snippet !== "") {
-      fetch("https://blog-react-backend.onrender.com/api/blogs/", {
+      fetch(base, {
         method: "POST",
         body: JSON.stringify({
           title,
@@ -64,7 +64,10 @@ export default function BlogForms() {
     }
   };
   return (
-    <form className="create" onSubmit={handelSubmit}>
+    <form
+      className="mt-10 w-[30%] max-sm:w-[100%] mx-auto block"
+      onSubmit={handelSubmit}
+    >
       <h3>Add a new blog</h3>
       <label>Blog title : </label>
       <input type={"text"} defaultValue={title} ref={titlRef} />
@@ -73,7 +76,7 @@ export default function BlogForms() {
       <input type={"text"} defaultValue={snippet} ref={sinpRef} />
 
       <label>body : </label>
-      <textarea defaultValue={body} ref={bodyRef} rows="4" cols="50"></textarea>
+      <textarea defaultValue={body} ref={bodyRef} rows="4" cols="40"></textarea>
 
       <button>Add Blog</button>
       {error && (

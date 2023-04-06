@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+
 const BlogSchema = mongoose.Schema(
   {
     title: {
@@ -21,6 +22,14 @@ const BlogSchema = mongoose.Schema(
       type: String,
       required: true,
     },
+    owner_avatar: {
+      type: Buffer,
+      required: true,
+    },
+    comments: {
+      type: Array,
+    },
+
     likes: {
       type: Array,
     },

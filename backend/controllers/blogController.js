@@ -9,12 +9,14 @@ module.exports = {
     try {
       const userObj = await User.findById(user_id);
       const userName = userObj.user_name;
+      const owner_avatar = userObj.avatar;
       const blog = await Blog.create({
         title,
         snippet,
         body,
         user_id,
         owner: userName,
+        owner_avatar,
       });
       res.status(201).json(blog);
     } catch (err) {
@@ -74,7 +76,8 @@ module.exports = {
         { _id: id },
         {
           ...req.body,
-        }
+        },
+        { new: true }
       );
       if (!result) {
         return res.status(404).json({ error: "no blog found to update" });
@@ -87,19 +90,19 @@ module.exports = {
   //add like
   addLike: async (req, res) => {
     const id = req.params.id;
+
     if (isValidObjectId(id)) {
       try {
         const likeEmail = req.body.email;
         const isLiked = await Blog.findOne({ _id: id });
 
         if (isLiked.likes.includes(likeEmail)) {
-          console.log(isLiked.likes.includes(likeEmail));
-
           const newLikes = isLiked.likes.filter((el) => el !== likeEmail);
 
           const result = await Blog.findOneAndUpdate(
             { _id: id },
-            { $set: { likes : newLikes } }
+            { $set: { likes: newLikes } },
+            { new: true }
           );
           if (result) {
             res.status(200).json(result);
@@ -109,7 +112,8 @@ module.exports = {
         } else {
           const result = await Blog.findOneAndUpdate(
             { _id: id },
-            { $push: { likes: likeEmail } }
+            { $push: { likes: likeEmail } },
+            { new: true }
           );
 
           if (!result) {
@@ -123,6 +127,28 @@ module.exports = {
       }
     } else {
       res.status(404).json({ error: "not a valid id" });
+    }
+  },
+  addComment: async (req, res) => {
+    const id = req.params.id;
+
+    const { user, comment } = req.body;
+    const commentid = Math.random() * 100;
+    // const comments = { user: user, comment: comment };
+
+    const result = await Blog.findOneAndUpdate(
+      { _id: id },
+      {
+        $push: {
+          comments: { user, comment, commentid },
+        },
+      },
+      { new: true }
+    );
+    if (result) {
+      return res.status(200).json(result);
+    } else {
+      return res.status(401).json(result);
     }
   },
 };
