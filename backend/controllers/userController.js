@@ -131,6 +131,11 @@ module.exports = {
               path.resolve(__dirname, `../public/uploads/${olduser.avatar}`)
             );
           }
+          const updatedComments = await Blog.updateMany(
+            { "comments.user.name": username },
+            { $set: { "comments.$[ele].user.avatar": result.avatar } },
+            { arrayFilters: [{ "ele.user.name": username }] }
+          );
         } else {
           res.status(400).json({ error: result });
         }
