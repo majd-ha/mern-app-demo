@@ -8,7 +8,7 @@ const userRoutes = require("./routes/user");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const app = express();
-// app.use(cookieParser());
+
 //middelware
 app.use(
   cors({
@@ -16,9 +16,8 @@ app.use(
   })
 );
 app.use(express.json());
-app.use("/uploads", express.static("uploads"));
-// app.use(express.static(path.join(__dirname, "/build")));
-// app.use(bodyParser.json());
+app.use("/public", express.static("public"));
+
 app.use(bodyParser.urlencoded({ extended: true }));
 
 //routes
@@ -27,7 +26,7 @@ app.use("/api/blogs/", blogRouter);
 app.use("/api/user/", userRoutes);
 //connect to db
 mongoose
-  .connect(process.env.DBURI)
+  .connect(process.env.DBURI2)
   .then(() => {
     //starting the server
     app.listen(process.env.PORT, () => {

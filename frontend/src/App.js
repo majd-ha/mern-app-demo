@@ -21,7 +21,7 @@ import FirstPage from "./pages/FirstPage";
 import Home from "./pages/Home";
 import LandingPage from "./pages/LandingPage";
 import Login from "./pages/Login";
-import MyBlogs from "./pages/MyBlogs";
+import Profile from "./pages/Profile";
 import Signup from "./pages/Signup";
 import SingleBlog from "./pages/SingleBlog";
 import UserBlogs from "./pages/UserBlogs";
@@ -29,6 +29,8 @@ function App() {
   const { state } = useAuthContext();
   // const base = "https://blog-react-backend.onrender.com/api/blogs/";
   axios.defaults.baseURL = "https://blog-react-backend.onrender.com/api/";
+  //axios.defaults.baseURL = "http://localhost:4000/api/";
+  axios.defaults.timeout = 5000;
   axios.defaults.headers = {
     Authorization: `Bearer ${state?.user?.token}`,
   };
@@ -47,11 +49,12 @@ function App() {
           element={<ProtectedRoutes />}
           errorElement={<ErrorPage />}
         >
-          <Route path="myblogs" element={<MyBlogs />} />
-
+          {/* <Route path="myblogs" element={<MyBlogs />} /> */}
+          <Route path="profile" element={<Profile />} />
           <Route path=":id" element={<SingleBlog />} />
           <Route path="users/:id" element={<UserBlogs />} />
         </Route>
+
         {/* public */}
         <Route path="public" element={<PublicLayout />}>
           <Route path="login" element={<Login />} />

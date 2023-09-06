@@ -65,10 +65,10 @@ export default function BlogForms() {
   };
   return (
     <form
-      className="mt-10 w-[30%] max-sm:w-[100%] mx-auto block"
+      className="mt-10 w-[50%] max-sm:w-[100%] mx-auto block"
       onSubmit={handelSubmit}
     >
-      <h3>Add a new blog</h3>
+      <h3 className="my-3 font-bold text-[#e7195a]">Add a new blog</h3>
       <label>Blog title : </label>
       <input type={"text"} defaultValue={title} ref={titlRef} />
 
@@ -76,9 +76,14 @@ export default function BlogForms() {
       <input type={"text"} defaultValue={snippet} ref={sinpRef} />
 
       <label>body : </label>
-      <textarea defaultValue={body} ref={bodyRef} rows="4" cols="30"></textarea>
+      <textarea
+        defaultValue={body}
+        ref={bodyRef}
+        rows="4"
+        className="w-full"
+      ></textarea>
 
-      <button>Add Blog</button>
+      <button className="block w-fit mx-auto mt-2">Add Blog</button>
       {error && (
         <div className="error">
           <p>{error}</p>

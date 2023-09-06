@@ -1,4 +1,3 @@
-import { imagefrombuffer } from "imagefrombuffer";
 import React, { useState } from "react";
 import { FiLogOut } from "react-icons/fi";
 import {
@@ -12,6 +11,7 @@ export default function Navbar() {
   const { state } = useAuthContext();
 
   const { logout } = useLogout();
+
   const [show, setShow] = useState(false);
   return (
     <header className="rounded-3xl">
@@ -23,12 +23,9 @@ export default function Navbar() {
           <nav>
             {state.user && (
               <div className="myblogs max-sm:flex-row">
-                <Link to={"/blogs/myblogs"}>
+                <Link to={"/blogs/profile"}>
                   <img
-                    src={imagefrombuffer({
-                      type: state?.user?.avatar.avatar.type,
-                      data: state?.user?.avatar.avatar.data,
-                    })}
+                    src={`https://blog-react-backend.onrender.com/public/uploads/${state.user?.avatar.avatar}`}
                     alt="img here"
                     className="max-sm:w-[40px] max-sm:h-[40px] w-[60px] h-[60px] rounded-full object-cover"
                   />

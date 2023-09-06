@@ -92,7 +92,7 @@ const Signup = () => {
     if (success) {
       await signup(email, password, phone, fullname);
     } else {
-      setErrorMsg("form not valid all fields required");
+      setErrorMsg("form is not valid, all fields are required");
     }
   };
   //toggle password show/hide
@@ -187,15 +187,7 @@ const Signup = () => {
             id={password ? "show-hide-pass" : "hide-element"}
             onClick={ShowPassword}
           >
-            {showPass ? (
-              <>
-                <AiOutlineEye />
-              </>
-            ) : (
-              <>
-                <AiOutlineEyeInvisible />
-              </>
-            )}
+            {showPass ? <AiOutlineEye /> : <AiOutlineEyeInvisible />}
           </span>
         </div>
 

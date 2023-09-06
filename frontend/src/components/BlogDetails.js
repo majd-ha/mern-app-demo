@@ -1,20 +1,22 @@
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
-import { imagefrombuffer } from "imagefrombuffer";
 import { useRef, useState } from "react";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { BiTime } from "react-icons/bi";
 import { BsInfoCircle } from "react-icons/bs";
 import { CgUserList } from "react-icons/cg";
+import { FaSpinner } from "react-icons/fa";
 import { MdSend } from "react-icons/md";
 import { RiAccountCircleLine, RiDeleteBinLine } from "react-icons/ri";
 import { Link } from "react-router-dom";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { useBlogContext } from "../hooks/useBlogContext";
+import User from "./User";
 export default function BlogDetails({ blog, show }) {
   const [comment, setComment] = useState("");
   const commentref = useRef();
   const { state } = useAuthContext();
   const [isLoading, setIsLoading] = useState(false);
+  const [Error, setError] = useState(false);
   const [toggletab, setToggleTab] = useState(true);
   const userName = state.user.user_name;
 
@@ -32,6 +34,7 @@ export default function BlogDetails({ blog, show }) {
   //   mutate(`addlike/${blog._id}`, myemail);
   // };
   const base = "https://blog-react-backend.onrender.com/api/blogs";
+  //const basedev = "http://localhost:4000/api/blogs";
   const likBlog = async () => {
     setIsLoading(true);
     const response = await fetch(`${base}/addlike/${blog._id}`, {
@@ -88,7 +91,12 @@ export default function BlogDetails({ blog, show }) {
     const response = await fetch(`${base}/${blog._id}`, {
       method: "PATCH",
       body: JSON.stringify({
-        user: state.user.user_name,
+        user: {
+          name: state.user.user_name,
+          avatar: state.user.avatar.avatar,
+          usr_id: state.user.id,
+        },
+
         comment: comment,
       }),
       headers: {
@@ -102,6 +110,10 @@ export default function BlogDetails({ blog, show }) {
     if (response) {
       dispatch({ type: "UPDATE_BLOG", payload: reJson });
       setIsLoading(false);
+      setError(false);
+    } else {
+      setIsLoading(false);
+      setError(true);
     }
   };
   return (
@@ -112,10 +124,7 @@ export default function BlogDetails({ blog, show }) {
         <div className="w-fit flex justify-between gap-3 items-center">
           {blog.owner_avatar ? (
             <img
-              src={imagefrombuffer({
-                type: blog.owner_avatar.type,
-                data: blog.owner_avatar.data,
-              })}
+              src={`https://blog-react-backend.onrender.com/public/uploads/${blog.owner_avatar}`}
               alt="img here"
               className="max-sm:w-[2rem] max-sm:h-[2rem] w-[2.5rem] h-[2.5rem] rounded-full object-cover"
             />
@@ -186,7 +195,9 @@ export default function BlogDetails({ blog, show }) {
       {/* comments */}
       <div
         className={
-          shown ? " h-fit p-5 rounded-lg  bg-[rgb(0,0,0,0.1)]" : "hidden"
+          shown
+            ? " h-fit p-5 rounded-lg  bg-[rgb(0,0,0,0.1)] max-sm:p-1 "
+            : "hidden"
         }
       >
         <div className="w-[90%] h-[100%] ml-[5%] rounded-lg shadow-lg bg-white max-sm:w-full max-sm:m-0">
@@ -199,7 +210,7 @@ export default function BlogDetails({ blog, show }) {
                   : ""
               } `}
             >
-              likes
+              Likes
             </div>
             <div
               onClick={() => setToggleTab(false)}
@@ -209,7 +220,7 @@ export default function BlogDetails({ blog, show }) {
                   : ""
               } `}
             >
-              comments
+              Comments
             </div>
           </div>
           <div className="w-full h-[80%]">
@@ -234,34 +245,46 @@ export default function BlogDetails({ blog, show }) {
                 })}
               </div>
             ) : (
-              <div className="p-5 max-h-screen overflow-y-auto">
-                <div>
+              <div className="p-5  max-sm:p-1">
+                <div className="overflow-y-auto max-h-screen">
                   {blog?.comments.map((el) => {
                     return (
                       <div
                         key={el.commentid}
-                        className="p-2 bg-gray-200 rounded-lg my-2"
+                        className="p-2 bg-gray-200 rounded-lg my-2 max-sm:p-1"
                       >
-                        <p className="bold bg-gray-400 p-1 w-fit rounded-lg mb-1 text-white">
-                          {el.user}
+                        <User usr={el.user} />
+                        <p className="bold pt-2 break-words text-sm">
+                          {el.comment}
                         </p>
-                        <p className="bold pt-1 break-words">{el.comment}</p>
                       </div>
                     );
                   })}
                 </div>{" "}
-                <div className="flex justify-between items-center h-fit">
+                <div
+                  className={`flex justify-between items-center h-fit ${
+                    Error ? "border border-red-800" : ""
+                  }`}
+                >
                   <input
                     type="text"
-                    className="h-[2.5rem] m-0 p-1"
+                    placeholder="write your comment"
+                    className="h-[2.5rem] m-0 p-1  rounded-3xl indent-3 "
                     ref={commentref}
                     onChange={(e) => {
                       setComment(e.target.value);
                     }}
                   />
                   <button onClick={addComment}>
-                    {" "}
-                    <MdSend size={"2.5rem"} color="#E7195A" />{" "}
+                    {isLoading ? (
+                      <FaSpinner
+                        size={"2.2rem"}
+                        color="#E7195A"
+                        className="animate-spin"
+                      />
+                    ) : (
+                      <MdSend size={"2.5rem"} color="#E7195A" />
+                    )}
                   </button>
                 </div>
               </div>

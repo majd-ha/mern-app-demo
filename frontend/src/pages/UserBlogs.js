@@ -14,7 +14,6 @@ export default function UserBlogs() {
     if (state.blogs) {
       const user_blogs = state.blogs?.filter((b) => b.user_id === id);
       setUserBlogs(user_blogs);
-      console.log(state.blogs);
     }
   }, [id, state.blogs]);
   if (loading) {
@@ -25,11 +24,11 @@ export default function UserBlogs() {
   }
   return (
     <div>
-      <h1 style={{ textAlign: "center" }}>
+      <h1 className="my-3 p-1 italic mx-auto w-fit">
         {userblogs?.length !== 0 ? (
-          userblogs[0]?.owner + `’s Blogs`
+          userblogs[0]?.owner + "`s Blogs"
         ) : (
-          <p>not a valid user</p>
+          <p className="capitalize ">user dont have blogs yet</p>
         )}
       </h1>
       <div className="flex flex-col gap-8">

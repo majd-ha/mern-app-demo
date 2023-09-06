@@ -16,6 +16,6 @@ router.post("/login", loginUser);
 // signup
 router.post("/signup", signupUser);
 
-router.patch("/updateimg/:username", upload.single("avatar"), updateImg);
+router.patch("/updateimg/:username", updateImg);
 // router.post("/addAvatar", addAvatar)
 module.exports = router;

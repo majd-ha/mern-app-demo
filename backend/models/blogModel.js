@@ -23,7 +23,7 @@ const BlogSchema = mongoose.Schema(
       required: true,
     },
     owner_avatar: {
-      type: Buffer,
+      type: String,
       required: true,
     },
     comments: {

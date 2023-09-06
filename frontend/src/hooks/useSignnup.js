@@ -1,10 +1,13 @@
 import { useState } from "react";
 
 import { useAuthContext } from "./useAuthContext";
+import { useLogout } from "./useLogout";
 export const useSignup = () => {
+  const { logout } = useLogout();
   const [error, setError] = useState(null);
   // const base = "https://blog-react-backend.onrender.com/api/user/signup";
   const baseUser = "https://blog-react-backend.onrender.com/api/user";
+  //const basedev = "http://localhost:4000/api/user";
   const [isLoading, setIsLoading] = useState(false);
   const { dispatch } = useAuthContext();
   const signup = async (email, password, phone, fullname) => {
@@ -27,6 +30,9 @@ export const useSignup = () => {
       localStorage.setItem("user", JSON.stringify(json));
       dispatch({ type: "SIGNUP", payload: json });
       setIsLoading(false);
+      setTimeout(() => {
+        logout();
+      }, 3600 * 1000 * 24 * 3);
     }
   };
   if (

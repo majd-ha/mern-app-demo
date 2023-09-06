@@ -8,7 +8,7 @@ const userschema = mongoose.Schema({
     unique: true,
   },
   avatar: {
-    type: Buffer,
+    type: String,
   },
   password: {
     type: String,
