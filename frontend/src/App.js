@@ -30,7 +30,7 @@ function App() {
   // const base = "https://blog-react-backend.onrender.com/api/blogs/";
   axios.defaults.baseURL = "https://blog-react-backend.onrender.com/api/";
   //axios.defaults.baseURL = "http://localhost:4000/api/";
-  axios.defaults.timeout = 5000;
+  // axios.defaults.timeout = 5000;
   axios.defaults.headers = {
     Authorization: `Bearer ${state?.user?.token}`,
   };
