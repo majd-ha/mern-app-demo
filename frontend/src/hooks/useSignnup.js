@@ -7,7 +7,7 @@ export const useSignup = () => {
   const [error, setError] = useState(null);
   // const base = "https://blog-react-backend.onrender.com/api/user/signup";
   const baseUser = "https://blog-react-backend.onrender.com/api/user";
-  //const basedev = "http://localhost:4000/api/user";
+  // const basedev = "http://localhost:4000/api/user";
   const [isLoading, setIsLoading] = useState(false);
   const { dispatch } = useAuthContext();
   const signup = async (email, password, phone, fullname) => {

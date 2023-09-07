@@ -13,6 +13,7 @@ export default function BlogForms() {
   const bodyRef = useRef();
   const sinpRef = useRef();
   const base = "https://blog-react-backend.onrender.com/api/blogs/";
+  // const basedev = "http://localhost:4000/api/blogs/";
   useEffect(() => {
     if (title !== "" && body !== "" && snippet !== "") {
       fetch(base, {
