@@ -133,8 +133,9 @@ module.exports = {
           }
           const updatedComments = await Blog.updateMany(
             { "comments.user.name": username },
-            { $set: { "comments.$[ele].user.avatar": result.avatar } },
-            { arrayFilters: [{ "ele.user.name": username }] }
+            // { comments: { $eleMatch: { "user.name": username } } },
+            { $set: { "comments.$.user.avatar": result.avatar } }
+            // { arrayFilters: [{ "ele1.user.name": username }] }
           );
         } else {
           res.status(400).json({ error: result });

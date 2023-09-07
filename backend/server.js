@@ -26,7 +26,7 @@ app.use("/api/blogs/", blogRouter);
 app.use("/api/user/", userRoutes);
 //connect to db
 mongoose
-  .connect(process.env.DBURI2)
+  .connect(process.env.DBURI)
   .then(() => {
     //starting the server
     app.listen(process.env.PORT, () => {
